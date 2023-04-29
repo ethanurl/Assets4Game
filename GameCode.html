@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta chareset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candy Knight</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.60.0/phaser.js" integrity="sha512-H05oT7BAjM9Ai1IaFX9zr61NtE2e1P0MkTz3AZXBnseaJSAOt2FGMFJ+vVGutaJxEGA1jxUiYsTBYQNE08/Erw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        class Intro extends Phaser.Scene {
+            constructor() {
+                super('intro');
+            }
+            preload() {
+                this.load.image('logo', 'E2Games.png');
+                
+            }
+            create() {
+                let writer = this.add.text(800, 400,
+                `click through each 
+                page to continue!`,
+                {font: '16px Courier'});
+                writer.setWordWrapWidth(200)
+                this.image = this.add.sprite(500, 250, 'logo');
+                this.image.setScale(0.6)
+                this.input.on('pointerdown', () =>this.scene.start('loading'));
+            }
+        }
+        
+        class Loading extends Phaser.Scene {
+            constructor() {
+                super('loading');
+            }
+            preload() {
+                this.load.image('loading', 'Loading.png');
+                this.load.audio('loadsong', 'LoadingSong.mp3');
+                
+            }
+            create() {
+                this.loadingmusic = this.sound.add('loadsong');
+                this.loadingmusic.loop = true;
+                this.loadingmusic.play();
+                this.image = this.add.sprite(800, 400, 'loading');
+                this.image.setScale(0.3);
+                this.input.on('pointerdown', () =>this.loadingmusic.stop());
+                this.input.on('pointerdown', () =>this.scene.start('text'));
+                this.tweens.add({
+                    targets: this.image,
+                    alpha: 1,
+                    x: 200,
+                    y: 400,
+                    duration: 2000,
+                    yoyo: true,
+                    ease: 'Sine.easeInOut',
+                    repeat: -1
+                })
+            }
+        }
+        
+        class Text extends Phaser.Scene {
+            constructor() {
+                super('text');
+            }
+            create() {
+                let gamer = this.add.text(100,100, 
+`The people of the Candy Kingdom are getting sick! The diagnosis... Too Much Candy. You, the Kingdom's greatest knight, are tasked with finding food to bring back and feed your kingdom`,
+            {font: "40px Courier"});
+            gamer.setWordWrapWidth(800);
+            this.input.on('pointerdown', () =>this.scene.start('gameplay'));
+            }
+        }
+
+        class Gameplay extends Phaser.Scene {
+            constructor() {
+                super('gameplay');
+            }
+            preload() {
+                this.load.image('pizzaguy', 'PizzaMan.png')
+                this.load.audio('pizzasong', 'PizzaSong.mp3')
+                this.load.image('character', 'Character.png')
+            }
+            create() {
+                this.pizzamusic = this.sound.add('pizzasong');
+                this.pizzamusic.loop = true;
+                this.pizzamusic.play()
+                this.input.on('pointerdown', () =>this.pizzamusic.stop());
+                this.input.on('pointerdown', () =>this.scene.start('title'));
+                this.pizzer = this.add.sprite(500,130, 'pizzaguy');
+                this.pizzer.setScale(0.6)
+                const r1 = this.add.rectangle(500, 375, 400, 175);
+                r1.setStrokeStyle(2, 0xff0000)
+                const r2 = this.add.circle(350, 435, 25, 0xb5338a);
+                const r3 = this.add.circle(410, 315, 25, 0x008ecc);
+                const r4 = this.add.circle(470, 435, 25, 0xeb9805);
+                const r5 = this.add.circle(530, 315, 25, 0xc21807);
+                const r6 = this.add.circle(590, 435, 25, 0xfce205);
+                const r7 = this.add.circle(650, 315, 25, 0x3bb143);
+                this.tweens.add({
+                    targets: r2,
+                    alpha: 1,
+                    x: 350,
+                    y: 315,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Sine.easeIn'
+                })
+                this.tweens.add({
+                    targets: r3,
+                    alpha: 1,
+                    x: 410,
+                    y: 435,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Linear'
+                })
+                this.tweens.add({
+                    targets: r4,
+                    alpha: 1,
+                    x: 470,
+                    y: 315,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Sine.easeOut'
+                })
+                this.tweens.add({
+                    targets: r5,
+                    alpha: 1,
+                    x: 530,
+                    y: 435,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Sine.easeInOut'
+                })
+                this.tweens.add({
+                    targets: r6,
+                    alpha: 1,
+                    x: 590,
+                    y: 315,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Sine.easeIn'
+                })
+                this.tweens.add({
+                    targets: r7,
+                    alpha: 1,
+                    x: 650,
+                    y: 435,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Linear'
+                })
+                this.dude = this.add.sprite(520, 435, 'character')
+                this.dude.setScale(0.6)
+                this.tweens.add({
+                    targets: this.dude,
+                    alpha: 1,
+                    x: 475,
+                    y: 435,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Linear'
+                })
+                
+            }
+        }
+        
+        class Title extends Phaser.Scene{
+            constructor(){
+                super('title');
+            }
+            preload() {
+                this.load.image('titlepage', 'TitlePage.png')
+                this.load.image('playbutton', 'PlayButton.png')
+                this.load.audio('titlemusic', 'titlemusic.mp3')
+            }
+            create() {
+                this.titlesong = this.sound.add('titlemusic');
+                this.titlesong.loop = true;
+                this.titlesong.play()
+                this.titler = this.add.sprite(500, 250, 'titlepage')
+                this.titler.setScale(0.59)
+                this.player = this.add.sprite(500, 450, 'playbutton')
+                this.player.setScale(0.6)
+                this.tweens.add({
+                    targets: this.player,
+                    alpha: 0,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'Linear'
+                })
+            }
+        }
+        new Phaser.Game({
+            width: 1000,
+            height: 500,
+            scene: [Intro, Loading, Text, Gameplay, Title]
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>
