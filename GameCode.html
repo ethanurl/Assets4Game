@@ -22,7 +22,18 @@
                 writer.setWordWrapWidth(200)
                 this.image = this.add.sprite(500, 250, 'logo');
                 this.image.setScale(0.6)
-                this.input.on('pointerdown', () =>this.scene.start('loading'));
+                this.input.on('pointerdown', () =>this.tweens.add({
+                    targets: this.image,
+                    alpha: 0,
+                    ease: 'Sine.easeOut'
+                }));
+                this.input.on('pointerdown', () =>this.tweens.add({
+                    targets: writer,
+                    alpha: 0,
+                    ease: 'Sine.easeOut'
+                }));
+                this.input.on('pointerdown', () =>this.time.delayedCall(1000, ()=> this.scene.start('loading')));
+
             }
         }
         
